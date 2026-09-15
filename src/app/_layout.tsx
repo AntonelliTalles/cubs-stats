@@ -1,15 +1,41 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
 
-export default function TabLayout() {
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      retry: 2,
+    },
+  },
+});
+
+export default function RootLayout() {
   const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <AnimatedSplashOverlay />
+        {/* TEMP DEBUG — wrapper neutro (flex:1) só para medir o espaço total do app */}
+        <View
+          style={styles.debugRoot}
+          onLayout={(e) => {
+            const { x, y, width, height } = e.nativeEvent.layout
+            console.log('[DEBUG] APP_ROOT onLayout', { x, y, width, height })
+          }}
+        >
+          <Stack screenOptions={{ headerShown: false }} />
+        </View>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  debugRoot: {
+    flex: 1,
+  },
+});
