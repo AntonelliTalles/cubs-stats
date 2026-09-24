@@ -2,8 +2,16 @@ import { create, AxiosError } from 'axios'
 
 import { ApiError } from '@/types/api.types'
 
-// Placeholder — replace with the real MLB Stats API base URL when integrating
-const BASE_URL = 'https://statsapi.mlb.com/api/v1'
+// Base URL for our own Sports API (never the MLB Stats API directly — the
+// mobile app must not know about it). Configure via EXPO_PUBLIC_API_URL,
+// see .env.example.
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL
+
+if (!BASE_URL) {
+  throw new Error(
+    'EXPO_PUBLIC_API_URL is not set. Copy .env.example to .env and point it at the Sports API (e.g. its LAN address when testing on a physical device via Expo Go).',
+  )
+}
 
 export const api = create({
   baseURL: BASE_URL,
