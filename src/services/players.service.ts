@@ -9,7 +9,7 @@ export async function getPlayers(): Promise<Player[]> {
   return mockPlayers
 }
 
-export async function getPlayerById(id: string): Promise<Player> {
+export async function getPlayerById(id: number): Promise<Player> {
   const player = mockPlayers.find((p) => p.id === id)
   if (!player) {
     throw new Error(`Player not found: ${id}`)

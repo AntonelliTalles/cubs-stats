@@ -11,7 +11,7 @@ import { useTheme } from '@/hooks/use-theme'
 import { usePlayers } from '@/hooks/usePlayers'
 import { useTeamStats } from '@/hooks/useTeamStats'
 import { useFiltersStore } from '@/stores/useFiltersStore'
-import { Batter, Pitcher } from '@/types/player.types'
+import { Batter, BattingStats, Pitcher, PitchingStats } from '@/types/player.types'
 
 function formatRate(value: number): string {
   const fixed = value.toFixed(3)
@@ -47,6 +47,7 @@ export default function HomeScreen() {
     if (!players) return []
     return players
       .filter((p): p is Batter => p.role === 'batter')
+      .filter((p): p is Batter & { stats: BattingStats } => p.stats !== null)
       .sort((a, b) => b.stats.ops - a.stats.ops)
       .slice(0, 3)
   }, [players])
@@ -55,6 +56,7 @@ export default function HomeScreen() {
     if (!players) return []
     return players
       .filter((p): p is Pitcher => p.role === 'pitcher')
+      .filter((p): p is Pitcher & { stats: PitchingStats } => p.stats !== null)
       .sort((a, b) => a.stats.era - b.stats.era)
       .slice(0, 3)
   }, [players])

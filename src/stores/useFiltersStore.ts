@@ -1,16 +1,14 @@
 import { create } from 'zustand'
 
-import { Position } from '@/types/player.types'
-
 interface Filters {
   season: number
-  position: Position | null
+  position: string | null
   search: string
 }
 
 interface FiltersStore extends Filters {
   setSeason: (season: number) => void
-  setPosition: (position: Position | null) => void
+  setPosition: (position: string | null) => void
   setSearch: (search: string) => void
   clearFilters: () => void
 }

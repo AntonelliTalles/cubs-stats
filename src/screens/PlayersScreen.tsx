@@ -66,7 +66,7 @@ function PositionChip({ label, active, onPress }: PositionChipProps) {
 
 const renderPlayer: ListRenderItem<Player> = ({ item }) => <PlayerCard player={item} />
 
-const keyExtractor = (player: Player) => player.id
+const keyExtractor = (player: Player) => String(player.id)
 
 export default function PlayersScreen() {
   const theme = useTheme()

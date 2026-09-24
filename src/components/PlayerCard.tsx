@@ -28,6 +28,13 @@ function StatBlock({ label, value }: { label: string; value: string }) {
 
 function BatterStats({ batter }: { batter: Batter }) {
   const { stats } = batter
+  if (!stats) {
+    return (
+      <ThemedText type="small" themeColor="textSecondary">
+        No stats available
+      </ThemedText>
+    )
+  }
   return (
     <>
       <StatBlock label="AVG" value={formatRate(stats.avg)} />
@@ -40,6 +47,13 @@ function BatterStats({ batter }: { batter: Batter }) {
 
 function PitcherStats({ pitcher }: { pitcher: Pitcher }) {
   const { stats } = pitcher
+  if (!stats) {
+    return (
+      <ThemedText type="small" themeColor="textSecondary">
+        No stats available
+      </ThemedText>
+    )
+  }
   return (
     <>
       <StatBlock label="ERA" value={stats.era.toFixed(2)} />

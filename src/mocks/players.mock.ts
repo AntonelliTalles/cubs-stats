@@ -2,7 +2,7 @@ import { Batter, Pitcher, Player } from '@/types/player.types'
 
 export const mockBatters: Batter[] = [
   {
-    id: 'dansby-swanson',
+    id: 1,
     name: 'Dansby Swanson',
     number: 7,
     position: 'SS',
@@ -29,7 +29,7 @@ export const mockBatters: Batter[] = [
     },
   },
   {
-    id: 'nico-hoerner',
+    id: 2,
     name: 'Nico Hoerner',
     number: 2,
     position: '2B',
@@ -56,7 +56,7 @@ export const mockBatters: Batter[] = [
     },
   },
   {
-    id: 'seiya-suzuki',
+    id: 3,
     name: 'Seiya Suzuki',
     number: 27,
     position: 'RF',
@@ -83,7 +83,7 @@ export const mockBatters: Batter[] = [
     },
   },
   {
-    id: 'ian-happ',
+    id: 4,
     name: 'Ian Happ',
     number: 8,
     position: 'LF',
@@ -110,7 +110,7 @@ export const mockBatters: Batter[] = [
     },
   },
   {
-    id: 'pete-crow-armstrong',
+    id: 5,
     name: 'Pete Crow-Armstrong',
     number: 52,
     position: 'CF',
@@ -137,7 +137,7 @@ export const mockBatters: Batter[] = [
     },
   },
   {
-    id: 'michael-busch',
+    id: 6,
     name: 'Michael Busch',
     number: 29,
     position: '1B',
@@ -167,7 +167,7 @@ export const mockBatters: Batter[] = [
 
 export const mockPitchers: Pitcher[] = [
   {
-    id: 'shota-imanaga',
+    id: 7,
     name: 'Shota Imanaga',
     number: 18,
     position: 'SP',
@@ -192,7 +192,7 @@ export const mockPitchers: Pitcher[] = [
     },
   },
   {
-    id: 'justin-steele',
+    id: 8,
     name: 'Justin Steele',
     number: 35,
     position: 'SP',
@@ -217,7 +217,7 @@ export const mockPitchers: Pitcher[] = [
     },
   },
   {
-    id: 'jordan-wicks',
+    id: 9,
     name: 'Jordan Wicks',
     number: 22,
     position: 'SP',
@@ -242,7 +242,7 @@ export const mockPitchers: Pitcher[] = [
     },
   },
   {
-    id: 'hector-neris',
+    id: 10,
     name: 'Héctor Neris',
     number: 31,
     position: 'CL',
