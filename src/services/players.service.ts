@@ -6,20 +6,16 @@ import { PlayersApiResponse } from '@/types/players.api.types'
 const CUBS_PLAYERS_ENDPOINT = '/teams/cubs/players'
 
 export async function getPlayers(): Promise<Player[]> {
-  return mockPlayers
+  const response = await api.get<PlayersApiResponse>(CUBS_PLAYERS_ENDPOINT)
+  return response.data.players
 }
 
+// Mock-backed: the Sports API doesn't expose a single-player endpoint yet and
+// no screen consumes this. Left isolated rather than inventing an endpoint.
 export async function getPlayerById(id: number): Promise<Player> {
   const player = mockPlayers.find((p) => p.id === id)
   if (!player) {
     throw new Error(`Player not found: ${id}`)
   }
   return player
-}
-
-// Calls the Sports API directly and returns its raw contract (PlayersApiResponse),
-// not the mobile domain Player[]. Not yet wired into usePlayers/PlayersScreen.
-export async function getPlayersFromSportsApi(): Promise<PlayersApiResponse> {
-  const response = await api.get<PlayersApiResponse>(CUBS_PLAYERS_ENDPOINT)
-  return response.data
 }

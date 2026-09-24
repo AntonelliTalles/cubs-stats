@@ -1,68 +1,11 @@
-// Contrato exposto pela nossa Sports API (GET /teams/cubs/players).
-// Estes tipos espelham fielmente o backend, inclusive nullability — não são
-// o domínio do mobile (@/types/player.types) e não têm nenhuma relação com a
-// MLB Stats API, que o mobile não deve conhecer.
+import { Player } from '@/types/player.types'
 
-export type ApiPlayerRole = 'batter' | 'pitcher'
-
-interface ApiPlayerBase {
-  id: number
-  name: string
-  number: number | null
-  position: string
-  bats: string | null
-  throws: string | null
-  age: number | null
-}
-
-export interface ApiBatterStats {
-  games: number
-  atBats: number
-  runs: number
-  hits: number
-  doubles: number
-  triples: number
-  homeRuns: number
-  rbi: number
-  stolenBases: number
-  walks: number
-  strikeouts: number
-  avg: number
-  obp: number
-  slg: number
-  ops: number
-}
-
-export interface ApiPitcherStats {
-  wins: number
-  losses: number
-  era: number
-  games: number
-  gamesStarted: number
-  inningsPitched: number
-  hitsAllowed: number
-  runsAllowed: number
-  earnedRuns: number
-  walks: number
-  strikeouts: number
-  whip: number
-  saves: number
-}
-
-export interface ApiBatter extends ApiPlayerBase {
-  role: 'batter'
-  stats: ApiBatterStats | null
-}
-
-export interface ApiPitcher extends ApiPlayerBase {
-  role: 'pitcher'
-  stats: ApiPitcherStats | null
-}
-
-export type ApiPlayer = ApiBatter | ApiPitcher
-
+// Envelope de transporte de GET /teams/cubs/players na nossa Sports API.
+// O formato de cada jogador já É o domínio mobile (Player) — a Sports API
+// normaliza a MLB antes de entregar dados ao mobile, então não há DTO
+// separado para duplicar aqui.
 export interface PlayersApiResponse {
   team: string
   season: number
-  players: ApiPlayer[]
+  players: Player[]
 }
