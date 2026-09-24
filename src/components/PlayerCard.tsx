@@ -68,9 +68,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
   return (
     <ThemedView type="backgroundElement" style={styles.card}>
       <View style={styles.header}>
-        <ThemedText type="smallBold" themeColor="textSecondary">
-          #{player.number}
-        </ThemedText>
+        {player.number !== null && (
+          <ThemedText type="smallBold" themeColor="textSecondary">
+            #{player.number}
+          </ThemedText>
+        )}
         <View style={styles.identity}>
           <ThemedText type="default">{player.name}</ThemedText>
           <ThemedText type="small" themeColor="textSecondary">

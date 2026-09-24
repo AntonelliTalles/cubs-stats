@@ -21,7 +21,7 @@ import { usePlayers } from '@/hooks/usePlayers'
 import { useFiltersStore } from '@/stores/useFiltersStore'
 import { Player } from '@/types/player.types'
 
-type FilterPosition = 'ALL' | 'C' | '1B' | '2B' | '3B' | 'SS' | 'OF' | 'SP' | 'RP'
+type FilterPosition = 'ALL' | 'C' | '1B' | '2B' | '3B' | 'SS' | 'OF' | 'P'
 
 const POSITION_FILTERS: FilterPosition[] = [
   'ALL',
@@ -31,14 +31,16 @@ const POSITION_FILTERS: FilterPosition[] = [
   '3B',
   'SS',
   'OF',
-  'SP',
-  'RP',
+  'P',
 ]
 
 function matchesPosition(player: Player, filter: FilterPosition): boolean {
   if (filter === 'ALL') return true
   if (filter === 'OF') {
     return player.position === 'LF' || player.position === 'CF' || player.position === 'RF'
+  }
+  if (filter === 'P') {
+    return player.role === 'pitcher'
   }
   return player.position === filter
 }
