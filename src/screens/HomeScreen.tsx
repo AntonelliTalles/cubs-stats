@@ -8,9 +8,8 @@ import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
-import { usePlayers } from '@/hooks/usePlayers'
+import { usePlayers, usePlayersMeta } from '@/hooks/usePlayers'
 import { useTeamStats } from '@/hooks/useTeamStats'
-import { useFiltersStore } from '@/stores/useFiltersStore'
 import { Batter, BattingStats, Pitcher, PitchingStats } from '@/types/player.types'
 
 function formatRate(value: number): string {
@@ -35,7 +34,7 @@ function SectionHeader({ title }: { title: string }) {
 
 export default function HomeScreen() {
   const theme = useTheme()
-  const { season } = useFiltersStore()
+  const { data: meta } = usePlayersMeta()
 
   const { data: teamStats, isLoading: teamLoading, isError: teamError } = useTeamStats()
   const { data: players, isLoading: playersLoading, isError: playersError } = usePlayers()
@@ -70,9 +69,11 @@ export default function HomeScreen() {
         >
           <View style={styles.heading}>
             <ThemedText type="subtitle">Chicago Cubs</ThemedText>
-            <ThemedText type="small" themeColor="textSecondary">
-              Season {season}
-            </ThemedText>
+            {meta?.season !== undefined && (
+              <ThemedText type="small" themeColor="textSecondary">
+                Season {meta.season}
+              </ThemedText>
+            )}
           </View>
 
           {isLoading && (

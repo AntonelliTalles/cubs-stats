@@ -5,9 +5,9 @@ import { PlayersApiResponse } from '@/types/players.api.types'
 
 const CUBS_PLAYERS_ENDPOINT = '/teams/cubs/players'
 
-export async function getPlayers(): Promise<Player[]> {
+export async function getPlayersResponse(): Promise<PlayersApiResponse> {
   const response = await api.get<PlayersApiResponse>(CUBS_PLAYERS_ENDPOINT)
-  return response.data.players
+  return response.data
 }
 
 // Mock-backed: the Sports API doesn't expose a single-player endpoint yet and
