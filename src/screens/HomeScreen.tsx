@@ -8,10 +8,9 @@ import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { Spacing } from '@/constants/theme'
 import { useTheme } from '@/hooks/use-theme'
-import { usePlayers } from '@/hooks/usePlayers'
+import { usePlayers, usePlayersMeta } from '@/hooks/usePlayers'
 import { useTeamStats } from '@/hooks/useTeamStats'
-import { useFiltersStore } from '@/stores/useFiltersStore'
-import { Batter, Pitcher } from '@/types/player.types'
+import { Batter, BattingStats, Pitcher, PitchingStats } from '@/types/player.types'
 
 function formatRate(value: number): string {
   const fixed = value.toFixed(3)
@@ -35,7 +34,7 @@ function SectionHeader({ title }: { title: string }) {
 
 export default function HomeScreen() {
   const theme = useTheme()
-  const { season } = useFiltersStore()
+  const { data: meta } = usePlayersMeta()
 
   const { data: teamStats, isLoading: teamLoading, isError: teamError } = useTeamStats()
   const { data: players, isLoading: playersLoading, isError: playersError } = usePlayers()
@@ -47,6 +46,7 @@ export default function HomeScreen() {
     if (!players) return []
     return players
       .filter((p): p is Batter => p.role === 'batter')
+      .filter((p): p is Batter & { stats: BattingStats } => p.stats !== null)
       .sort((a, b) => b.stats.ops - a.stats.ops)
       .slice(0, 3)
   }, [players])
@@ -55,6 +55,7 @@ export default function HomeScreen() {
     if (!players) return []
     return players
       .filter((p): p is Pitcher => p.role === 'pitcher')
+      .filter((p): p is Pitcher & { stats: PitchingStats } => p.stats !== null)
       .sort((a, b) => a.stats.era - b.stats.era)
       .slice(0, 3)
   }, [players])
@@ -68,9 +69,11 @@ export default function HomeScreen() {
         >
           <View style={styles.heading}>
             <ThemedText type="subtitle">Chicago Cubs</ThemedText>
-            <ThemedText type="small" themeColor="textSecondary">
-              Season {season}
-            </ThemedText>
+            {meta?.season !== undefined && (
+              <ThemedText type="small" themeColor="textSecondary">
+                Season {meta.season}
+              </ThemedText>
+            )}
           </View>
 
           {isLoading && (
@@ -94,16 +97,32 @@ export default function HomeScreen() {
               <View style={styles.cardsGrid}>
                 <StatCard
                   label="Record"
-                  value={`${teamStats.wins} - ${teamStats.losses}`}
+                  value={
+                    teamStats.record
+                      ? `${teamStats.record.wins} - ${teamStats.record.losses}`
+                      : '--'
+                  }
                 />
                 <StatCard
                   label="Runs"
-                  value={`${teamStats.runsScored} / ${teamStats.runsAllowed}`}
+                  value={`${teamStats.batting?.runsScored ?? '--'} / ${teamStats.pitching?.runsAllowed ?? '--'}`}
                 />
-                <StatCard label="Home Runs" value={String(teamStats.homeRuns)} />
-                <StatCard label="AVG" value={formatRate(teamStats.teamAvg)} />
-                <StatCard label="OPS" value={formatRate(teamStats.teamOps)} />
-                <StatCard label="ERA" value={teamStats.teamEra.toFixed(2)} />
+                <StatCard
+                  label="Home Runs"
+                  value={teamStats.batting ? String(teamStats.batting.homeRuns) : '--'}
+                />
+                <StatCard
+                  label="AVG"
+                  value={teamStats.batting ? formatRate(teamStats.batting.avg) : '--'}
+                />
+                <StatCard
+                  label="OPS"
+                  value={teamStats.batting ? formatRate(teamStats.batting.ops) : '--'}
+                />
+                <StatCard
+                  label="ERA"
+                  value={teamStats.pitching ? teamStats.pitching.era.toFixed(2) : '--'}
+                />
               </View>
 
               <SectionHeader title="Top Hitters" />

@@ -41,21 +41,29 @@ export function TeamStatsBanner({ stats }: TeamStatsBannerProps) {
   return (
     <ThemedView type="backgroundElement" style={styles.banner}>
       <View style={styles.record}>
-        <RecordColumn value={stats.wins} label="W" />
-        <ThemedText type="subtitle" themeColor="textSecondary">
-          -
-        </ThemedText>
-        <RecordColumn value={stats.losses} label="L" />
+        {stats.record ? (
+          <>
+            <RecordColumn value={stats.record.wins} label="W" />
+            <ThemedText type="subtitle" themeColor="textSecondary">
+              -
+            </ThemedText>
+            <RecordColumn value={stats.record.losses} label="L" />
+          </>
+        ) : (
+          <ThemedText type="small" themeColor="textSecondary">
+            Record unavailable
+          </ThemedText>
+        )}
       </View>
 
       <View style={styles.divider} />
 
       <View style={styles.statsRow}>
-        <StatBlock label="WIN%" value={formatRate(stats.winPercentage)} />
-        <StatBlock label="AVG" value={formatRate(stats.teamAvg)} />
-        <StatBlock label="OPS" value={formatRate(stats.teamOps)} />
-        <StatBlock label="ERA" value={stats.teamEra.toFixed(2)} />
-        <StatBlock label="HR" value={String(stats.homeRuns)} />
+        <StatBlock label="WIN%" value={stats.record ? formatRate(stats.record.winPercentage) : '--'} />
+        <StatBlock label="AVG" value={stats.batting ? formatRate(stats.batting.avg) : '--'} />
+        <StatBlock label="OPS" value={stats.batting ? formatRate(stats.batting.ops) : '--'} />
+        <StatBlock label="ERA" value={stats.pitching ? stats.pitching.era.toFixed(2) : '--'} />
+        <StatBlock label="HR" value={stats.batting ? String(stats.batting.homeRuns) : '--'} />
       </View>
     </ThemedView>
   )

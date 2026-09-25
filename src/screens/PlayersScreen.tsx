@@ -21,7 +21,7 @@ import { usePlayers } from '@/hooks/usePlayers'
 import { useFiltersStore } from '@/stores/useFiltersStore'
 import { Player } from '@/types/player.types'
 
-type FilterPosition = 'ALL' | 'C' | '1B' | '2B' | '3B' | 'SS' | 'OF' | 'SP' | 'RP'
+type FilterPosition = 'ALL' | 'C' | '1B' | '2B' | '3B' | 'SS' | 'OF' | 'P'
 
 const POSITION_FILTERS: FilterPosition[] = [
   'ALL',
@@ -31,14 +31,16 @@ const POSITION_FILTERS: FilterPosition[] = [
   '3B',
   'SS',
   'OF',
-  'SP',
-  'RP',
+  'P',
 ]
 
 function matchesPosition(player: Player, filter: FilterPosition): boolean {
   if (filter === 'ALL') return true
   if (filter === 'OF') {
     return player.position === 'LF' || player.position === 'CF' || player.position === 'RF'
+  }
+  if (filter === 'P') {
+    return player.role === 'pitcher'
   }
   return player.position === filter
 }
@@ -66,7 +68,7 @@ function PositionChip({ label, active, onPress }: PositionChipProps) {
 
 const renderPlayer: ListRenderItem<Player> = ({ item }) => <PlayerCard player={item} />
 
-const keyExtractor = (player: Player) => player.id
+const keyExtractor = (player: Player) => String(player.id)
 
 export default function PlayersScreen() {
   const theme = useTheme()

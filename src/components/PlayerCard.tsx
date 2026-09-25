@@ -28,6 +28,13 @@ function StatBlock({ label, value }: { label: string; value: string }) {
 
 function BatterStats({ batter }: { batter: Batter }) {
   const { stats } = batter
+  if (!stats) {
+    return (
+      <ThemedText type="small" themeColor="textSecondary">
+        No stats available
+      </ThemedText>
+    )
+  }
   return (
     <>
       <StatBlock label="AVG" value={formatRate(stats.avg)} />
@@ -40,6 +47,13 @@ function BatterStats({ batter }: { batter: Batter }) {
 
 function PitcherStats({ pitcher }: { pitcher: Pitcher }) {
   const { stats } = pitcher
+  if (!stats) {
+    return (
+      <ThemedText type="small" themeColor="textSecondary">
+        No stats available
+      </ThemedText>
+    )
+  }
   return (
     <>
       <StatBlock label="ERA" value={stats.era.toFixed(2)} />
@@ -54,9 +68,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
   return (
     <ThemedView type="backgroundElement" style={styles.card}>
       <View style={styles.header}>
-        <ThemedText type="smallBold" themeColor="textSecondary">
-          #{player.number}
-        </ThemedText>
+        {player.number !== null && (
+          <ThemedText type="smallBold" themeColor="textSecondary">
+            #{player.number}
+          </ThemedText>
+        )}
         <View style={styles.identity}>
           <ThemedText type="default">{player.name}</ThemedText>
           <ThemedText type="small" themeColor="textSecondary">

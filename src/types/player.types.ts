@@ -1,10 +1,3 @@
-export type BatHandedness = 'L' | 'R' | 'S'
-export type ThrowHandedness = 'L' | 'R'
-
-export type FieldingPosition = 'C' | '1B' | '2B' | '3B' | 'SS' | 'LF' | 'CF' | 'RF' | 'DH'
-export type PitchingPosition = 'SP' | 'RP' | 'CL'
-export type Position = FieldingPosition | PitchingPosition
-
 export interface BattingStats {
   games: number
   atBats: number
@@ -40,24 +33,23 @@ export interface PitchingStats {
 }
 
 interface PlayerBase {
-  id: string
+  id: number
   name: string
-  number: number
-  bats: BatHandedness
-  throws: ThrowHandedness
-  age: number
+  number: number | null
+  position: string
+  bats: string | null
+  throws: string | null
+  age: number | null
 }
 
 export interface Batter extends PlayerBase {
   role: 'batter'
-  position: FieldingPosition
-  stats: BattingStats
+  stats: BattingStats | null
 }
 
 export interface Pitcher extends PlayerBase {
   role: 'pitcher'
-  position: PitchingPosition
-  stats: PitchingStats
+  stats: PitchingStats | null
 }
 
 export type Player = Batter | Pitcher
