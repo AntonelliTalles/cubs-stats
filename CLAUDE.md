@@ -34,3 +34,11 @@ src/
   stores/
   types/
   mocks/
+
+## Configuração local da Sports API
+- O app usa `EXPO_PUBLIC_API_URL` como base URL da Sports API (ver `src/services/api.ts`).
+- Para desenvolvimento local, copie `.env.example` para `.env` e preencha `EXPO_PUBLIC_API_URL`.
+- O valor precisa apontar para uma URL da Sports API acessível pelo dispositivo/emulador que está executando o app.
+- Em device físico, `localhost` do computador não representa o computador para o celular — normalmente deve-se usar o IP acessível pela rede local.
+- `.env` não deve ser commitado (já está no `.gitignore`).
+- `.env.example` é o template versionado.
