@@ -8,14 +8,7 @@ export default function AppTabs() {
   const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
 
   return (
-    // TEMP DEBUG — wrapper neutro (flex:1) só para medir o espaço total dado ao NativeTabs
-    <View
-      style={styles.debugRoot}
-      onLayout={(e) => {
-        const { x, y, width, height } = e.nativeEvent.layout
-        console.log('[DEBUG] TAB_CONTAINER onLayout', { x, y, width, height })
-      }}
-    >
+    <View style={styles.debugRoot}>
       <NativeTabs
         backgroundColor={colors.background}
         indicatorColor={colors.backgroundElement}
