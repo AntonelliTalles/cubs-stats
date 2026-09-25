@@ -97,16 +97,32 @@ export default function HomeScreen() {
               <View style={styles.cardsGrid}>
                 <StatCard
                   label="Record"
-                  value={`${teamStats.wins} - ${teamStats.losses}`}
+                  value={
+                    teamStats.record
+                      ? `${teamStats.record.wins} - ${teamStats.record.losses}`
+                      : '--'
+                  }
                 />
                 <StatCard
                   label="Runs"
-                  value={`${teamStats.runsScored} / ${teamStats.runsAllowed}`}
+                  value={`${teamStats.batting?.runsScored ?? '--'} / ${teamStats.pitching?.runsAllowed ?? '--'}`}
                 />
-                <StatCard label="Home Runs" value={String(teamStats.homeRuns)} />
-                <StatCard label="AVG" value={formatRate(teamStats.teamAvg)} />
-                <StatCard label="OPS" value={formatRate(teamStats.teamOps)} />
-                <StatCard label="ERA" value={teamStats.teamEra.toFixed(2)} />
+                <StatCard
+                  label="Home Runs"
+                  value={teamStats.batting ? String(teamStats.batting.homeRuns) : '--'}
+                />
+                <StatCard
+                  label="AVG"
+                  value={teamStats.batting ? formatRate(teamStats.batting.avg) : '--'}
+                />
+                <StatCard
+                  label="OPS"
+                  value={teamStats.batting ? formatRate(teamStats.batting.ops) : '--'}
+                />
+                <StatCard
+                  label="ERA"
+                  value={teamStats.pitching ? teamStats.pitching.era.toFixed(2) : '--'}
+                />
               </View>
 
               <SectionHeader title="Top Hitters" />
