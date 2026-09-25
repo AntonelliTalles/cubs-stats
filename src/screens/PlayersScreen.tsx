@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
-  LayoutChangeEvent,
   ListRenderItem,
   ScrollView,
   StyleSheet,
@@ -85,21 +84,10 @@ export default function PlayersScreen() {
     )
   }, [players, positionFilter, search])
 
-  // TEMP DEBUG — remover após diagnóstico
-  const logLayout = (label: string) => (event: LayoutChangeEvent) => {
-    const { x, y, width, height } = event.nativeEvent.layout
-    console.log(`[DEBUG] ${label} onLayout`, { x, y, width, height })
-  }
-
   return (
-    <ThemedView style={styles.container} onLayout={logLayout('SCREEN_ROOT')}>
-      <SafeAreaView
-        style={styles.safeArea}
-        edges={['top', 'left', 'right']}
-        onLayout={logLayout('SAFE_AREA')}
-      >
-        {/* TEMP DEBUG — agrupamento só para medir a área de header/filtros como um bloco */}
-        <View style={styles.headerFilterArea} onLayout={logLayout('HEADER_FILTER_AREA')}>
+    <ThemedView style={styles.container}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+        <View style={styles.headerFilterArea}>
           <ThemedText type="subtitle">Chicago Cubs Players</ThemedText>
 
           <TextInput
@@ -149,7 +137,6 @@ export default function PlayersScreen() {
         {!isLoading && !isError && (
           <FlatList
             style={styles.playerList}
-            onLayout={logLayout('FLATLIST')}
             data={filteredPlayers}
             keyExtractor={keyExtractor}
             renderItem={renderPlayer}
@@ -181,7 +168,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.two,
     gap: Spacing.three,
   },
-  // TEMP DEBUG — reproduz o gap que title/search/filtros tinham como filhos diretos de safeArea
+  // Mesmo gap do safeArea, para não alterar o espaçamento visual dos filhos
   headerFilterArea: {
     gap: Spacing.three,
   },

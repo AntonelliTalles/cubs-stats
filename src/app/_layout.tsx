@@ -19,14 +19,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AnimatedSplashOverlay />
-        {/* TEMP DEBUG — wrapper neutro (flex:1) só para medir o espaço total do app */}
-        <View
-          style={styles.debugRoot}
-          onLayout={(e) => {
-            const { x, y, width, height } = e.nativeEvent.layout
-            console.log('[DEBUG] APP_ROOT onLayout', { x, y, width, height })
-          }}
-        >
+        <View style={styles.debugRoot}>
           <Stack screenOptions={{ headerShown: false }} />
         </View>
       </ThemeProvider>
